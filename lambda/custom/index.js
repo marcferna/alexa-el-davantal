@@ -148,49 +148,49 @@ const HelloWorldIntentHandler = {
 //   },
 // };
 
-// const StartPlaybackHandler = {
-//   async canHandle(handlerInput) {
-//     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~")
-//     const playbackInfo = await getPlaybackInfo(handlerInput);
-//     const request = handlerInput.requestEnvelope.request;
+const StartPlaybackHandler = {
+  async canHandle(handlerInput) {
+    console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~");
+    const playbackInfo = await getPlaybackInfo(handlerInput);
+    const request = handlerInput.requestEnvelope.request;
 
-//     console.log(playbackInfo, request.type, request.intent.name)
-//     if (!playbackInfo.inPlaybackSession) {
-//       return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio';
-//     }
-//     if (request.type === 'PlaybackController.PlayCommandIssued') {
-//       return true;
-//     }
+    // console.log(playbackInfo, request.type, request.intent.name)
+    if (!playbackInfo.inPlaybackSession) {
+      return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio';
+    }
+    if (request.type === 'PlaybackController.PlayCommandIssued') {
+      return true;
+    }
 
-//     if (request.type === 'IntentRequest') {
-//       return request.intent.name === 'PlayAudio' ||
-//         request.intent.name === 'AMAZON.ResumeIntent';
-//     }
-//   },
-//   handle(handlerInput) {
-//     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#handle ~~~~~~~~~~~~~~")
-//     return controller.play(handlerInput);
-//   },
-// };
+    if (request.type === 'IntentRequest') {
+      return request.intent.name === 'PlayAudio' ||
+        request.intent.name === 'AMAZON.ResumeIntent';
+    }
+  },
+  handle(handlerInput) {
+    console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#handle ~~~~~~~~~~~~~~");
+    return controller.play(handlerInput);
+  },
+};
 
-// const PausePlaybackHandler = {
-//   async canHandle(handlerInput) {
-//     console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#canHandle ~~~~~~~~~~~~~~")
-//     const playbackInfo = await getPlaybackInfo(handlerInput);
-//     const request = handlerInput.requestEnvelope.request;
+const PausePlaybackHandler = {
+  async canHandle(handlerInput) {
+    console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#canHandle ~~~~~~~~~~~~~~");
+    const playbackInfo = await getPlaybackInfo(handlerInput);
+    const request = handlerInput.requestEnvelope.request;
 
-//     console.log(playbackInfo, request.type, request.intent.name)
-//     return playbackInfo.inPlaybackSession &&
-//       request.type === 'IntentRequest' &&
-//       (request.intent.name === 'AMAZON.StopIntent' ||
-//         request.intent.name === 'AMAZON.CancelIntent' ||
-//         request.intent.name === 'AMAZON.PauseIntent');
-//   },
-//   handle(handlerInput) {
-//     console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#handle ~~~~~~~~~~~~~~")
-//     return controller.stop(handlerInput);
-//   },
-// };
+    // console.log(playbackInfo, request.type, request.intent.name)
+    return playbackInfo.inPlaybackSession &&
+      request.type === 'IntentRequest' &&
+      (request.intent.name === 'AMAZON.StopIntent' ||
+        request.intent.name === 'AMAZON.CancelIntent' ||
+        request.intent.name === 'AMAZON.PauseIntent');
+  },
+  handle(handlerInput) {
+    console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#handle ~~~~~~~~~~~~~~");
+    return controller.stop(handlerInput);
+  },
+};
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
@@ -411,6 +411,8 @@ exports.handler = Alexa.SkillBuilders.custom()
   .addRequestHandlers(
     LaunchRequestHandler,
     HelloWorldIntentHandler,
+    StartPlaybackHandler,
+    PausePlaybackHandler
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     FallbackIntentHandler,
