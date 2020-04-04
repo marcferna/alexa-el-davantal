@@ -148,49 +148,49 @@ const HelloWorldIntentHandler = {
 //   },
 // };
 
-const StartPlaybackHandler = {
-  async canHandle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~")
-    const playbackInfo = await getPlaybackInfo(handlerInput);
-    const request = handlerInput.requestEnvelope.request;
+// const StartPlaybackHandler = {
+//   async canHandle(handlerInput) {
+//     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~")
+//     const playbackInfo = await getPlaybackInfo(handlerInput);
+//     const request = handlerInput.requestEnvelope.request;
 
-    console.log(playbackInfo, request.type, request.intent.name)
-    if (!playbackInfo.inPlaybackSession) {
-      return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio';
-    }
-    if (request.type === 'PlaybackController.PlayCommandIssued') {
-      return true;
-    }
+//     console.log(playbackInfo, request.type, request.intent.name)
+//     if (!playbackInfo.inPlaybackSession) {
+//       return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio';
+//     }
+//     if (request.type === 'PlaybackController.PlayCommandIssued') {
+//       return true;
+//     }
 
-    if (request.type === 'IntentRequest') {
-      return request.intent.name === 'PlayAudio' ||
-        request.intent.name === 'AMAZON.ResumeIntent';
-    }
-  },
-  handle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#handle ~~~~~~~~~~~~~~")
-    return controller.play(handlerInput);
-  },
-};
+//     if (request.type === 'IntentRequest') {
+//       return request.intent.name === 'PlayAudio' ||
+//         request.intent.name === 'AMAZON.ResumeIntent';
+//     }
+//   },
+//   handle(handlerInput) {
+//     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#handle ~~~~~~~~~~~~~~")
+//     return controller.play(handlerInput);
+//   },
+// };
 
-const PausePlaybackHandler = {
-  async canHandle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#canHandle ~~~~~~~~~~~~~~")
-    const playbackInfo = await getPlaybackInfo(handlerInput);
-    const request = handlerInput.requestEnvelope.request;
+// const PausePlaybackHandler = {
+//   async canHandle(handlerInput) {
+//     console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#canHandle ~~~~~~~~~~~~~~")
+//     const playbackInfo = await getPlaybackInfo(handlerInput);
+//     const request = handlerInput.requestEnvelope.request;
 
-    console.log(playbackInfo, request.type, request.intent.name)
-    return playbackInfo.inPlaybackSession &&
-      request.type === 'IntentRequest' &&
-      (request.intent.name === 'AMAZON.StopIntent' ||
-        request.intent.name === 'AMAZON.CancelIntent' ||
-        request.intent.name === 'AMAZON.PauseIntent');
-  },
-  handle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#handle ~~~~~~~~~~~~~~")
-    return controller.stop(handlerInput);
-  },
-};
+//     console.log(playbackInfo, request.type, request.intent.name)
+//     return playbackInfo.inPlaybackSession &&
+//       request.type === 'IntentRequest' &&
+//       (request.intent.name === 'AMAZON.StopIntent' ||
+//         request.intent.name === 'AMAZON.CancelIntent' ||
+//         request.intent.name === 'AMAZON.PauseIntent');
+//   },
+//   handle(handlerInput) {
+//     console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#handle ~~~~~~~~~~~~~~")
+//     return controller.stop(handlerInput);
+//   },
+// };
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
@@ -337,70 +337,70 @@ const LocalisationRequestInterceptor = {
 
 /* HELPER FUNCTIONS */
 
-async function getPlaybackInfo(handlerInput) {
-  console.log("~~~~~~~~~~~~~~~~~~~~~ getPlaybackInfo ~~~~~~~~~~~~~~")
-  const attributes = await handlerInput.attributesManager.getPersistentAttributes();
-  console.log(attributes)
-  return attributes.playbackInfo;
-}
+// async function getPlaybackInfo(handlerInput) {
+//   console.log("~~~~~~~~~~~~~~~~~~~~~ getPlaybackInfo ~~~~~~~~~~~~~~")
+//   const attributes = await handlerInput.attributesManager.getPersistentAttributes();
+//   console.log(attributes)
+//   return attributes.playbackInfo;
+// }
 
-const controller = {
-  async play(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ controller#play ~~~~~~~~~~~~~~")
-    const {
-      attributesManager,
-      responseBuilder
-    } = handlerInput;
+// const controller = {
+//   async play(handlerInput) {
+//     console.log("~~~~~~~~~~~~~~~~~~~~~ controller#play ~~~~~~~~~~~~~~")
+//     const {
+//       attributesManager,
+//       responseBuilder
+//     } = handlerInput;
 
-    const playbackInfo = await getPlaybackInfo(handlerInput);
-    const {
-      playOrder,
-      offsetInMilliseconds,
-      index
-    } = playbackInfo;
+//     const playbackInfo = await getPlaybackInfo(handlerInput);
+//     const {
+//       playOrder,
+//       offsetInMilliseconds,
+//       index
+//     } = playbackInfo;
 
-    const playBehavior = 'REPLACE_ALL';
-    // const podcast = constants.audioData[playOrder[index]];
-    const token = playOrder[index];
-    playbackInfo.nextStreamEnqueued = false;
+//     const playBehavior = 'REPLACE_ALL';
+//     // const podcast = constants.audioData[playOrder[index]];
+//     const token = playOrder[index];
+//     playbackInfo.nextStreamEnqueued = false;
 
-    console.log(playbackInfo, playOrder, offsetInMilliseconds, index, token)
-    responseBuilder
-      .speak(`This is El Davantal for date TODO`)
-      .withShouldEndSession(true)
-      .addAudioPlayerPlayDirective(playBehavior, "https://audioserver.rac1.cat/get/4c9c1384-06c3-4388-88ef-a41a69712658/1/2020-03-13-el-mon-a-rac1-el-davantal-empatia-i-responsabilitat.mp3?source=WEB", token, offsetInMilliseconds, null);
+//     console.log(playbackInfo, playOrder, offsetInMilliseconds, index, token)
+//     responseBuilder
+//       .speak("This is El Davantal for date TODO")
+//       .withShouldEndSession(true)
+//       .addAudioPlayerPlayDirective(playBehavior, "https://audioserver.rac1.cat/get/4c9c1384-06c3-4388-88ef-a41a69712658/1/2020-03-13-el-mon-a-rac1-el-davantal-empatia-i-responsabilitat.mp3?source=WEB", token, offsetInMilliseconds, null);
 
-    return responseBuilder.getResponse();
-  },
-  stop(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ controller#stop ~~~~~~~~~~~~~~")
-    return handlerInput.responseBuilder
-      .addAudioPlayerStopDirective()
-      .getResponse();
-  },
-};
+//     return responseBuilder.getResponse();
+//   },
+//   stop(handlerInput) {
+//     console.log("~~~~~~~~~~~~~~~~~~~~~ controller#stop ~~~~~~~~~~~~~~")
+//     return handlerInput.responseBuilder
+//       .addAudioPlayerStopDirective()
+//       .getResponse();
+//   },
+// };
 
-function getToken(handlerInput) {
-  console.log("~~~~~~~~~~~~~~~~~~~~~ getToken ~~~~~~~~~~~~~~")
-  // Extracting token received in the request.
-  return handlerInput.requestEnvelope.request.token;
-}
+// function getToken(handlerInput) {
+//   console.log("~~~~~~~~~~~~~~~~~~~~~ getToken ~~~~~~~~~~~~~~")
+//   // Extracting token received in the request.
+//   return handlerInput.requestEnvelope.request.token;
+// }
 
-async function getIndex(handlerInput) {
-  console.log("~~~~~~~~~~~~~~~~~~~~~ getIndex ~~~~~~~~~~~~~~")
-  // Extracting index from the token received in the request.
-  const tokenValue = parseInt(handlerInput.requestEnvelope.request.token, 10);
-  const attributes = await handlerInput.attributesManager.getPersistentAttributes();
+// async function getIndex(handlerInput) {
+//   console.log("~~~~~~~~~~~~~~~~~~~~~ getIndex ~~~~~~~~~~~~~~")
+//   // Extracting index from the token received in the request.
+//   const tokenValue = parseInt(handlerInput.requestEnvelope.request.token, 10);
+//   const attributes = await handlerInput.attributesManager.getPersistentAttributes();
 
-  console.log(tokenValue, attributes)
-  return attributes.playbackInfo.playOrder.indexOf(tokenValue);
-}
+//   console.log(tokenValue, attributes)
+//   return attributes.playbackInfo.playOrder.indexOf(tokenValue);
+// }
 
-function getOffsetInMilliseconds(handlerInput) {
-  console.log("~~~~~~~~~~~~~~~~~~~~~ getOffsetInMilliseconds ~~~~~~~~~~~~~~")
-  // Extracting offsetInMilliseconds received in the request.
-  return handlerInput.requestEnvelope.request.offsetInMilliseconds;
-}
+// function getOffsetInMilliseconds(handlerInput) {
+//   console.log("~~~~~~~~~~~~~~~~~~~~~ getOffsetInMilliseconds ~~~~~~~~~~~~~~")
+//   // Extracting offsetInMilliseconds received in the request.
+//   return handlerInput.requestEnvelope.request.offsetInMilliseconds;
+// }
 
 /**
  * This handler acts as the entry point for your skill, routing all request and response
@@ -411,8 +411,6 @@ exports.handler = Alexa.SkillBuilders.custom()
   .addRequestHandlers(
     LaunchRequestHandler,
     HelloWorldIntentHandler,
-    StartPlaybackHandler,
-    PausePlaybackHandler
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     FallbackIntentHandler,
