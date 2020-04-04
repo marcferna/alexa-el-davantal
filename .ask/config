@@ -1,9 +1,75 @@
 {
   "deploy_settings": {
     "default": {
-      "skill_id": "",
+      "skill_id": "amzn1.ask.skill.6f21c059-79e1-4adc-b044-99a9fc45f3ea",
       "was_cloned": false,
-      "merge": {}
+      "merge": {},
+      "resources": {
+        "manifest": {
+          "eTag": "a5c4270ace15eb40e35055bcc84831d5"
+        },
+        "interactionModel": {
+          "de-DE": {
+            "eTag": "43ba763f49bfe9405c4434156e6e75f9"
+          },
+          "en-GB": {
+            "eTag": "656fc64f7e128803b16447402b6c835c"
+          },
+          "en-US": {
+            "eTag": "f86761727d97d573b77989cdccf46149"
+          },
+          "en-AU": {
+            "eTag": "d77ad4c01e7fb3dcdd595d4e91621f48"
+          },
+          "en-IN": {
+            "eTag": "f115e7c28ae84933196d25a42291627c"
+          },
+          "es-MX": {
+            "eTag": "eca0b12dc3b7a18ed090f54cf644070a"
+          },
+          "en-CA": {
+            "eTag": "6fd54e1ad4abcf8a1f10610536cc0dd4"
+          },
+          "es-US": {
+            "eTag": "19f6b69cea396696668f6929003c7cf5"
+          },
+          "hi-IN": {
+            "eTag": "38a67ac69635b775e54b3a942bdbd6e4"
+          },
+          "ja-JP": {
+            "eTag": "cf5e696e81b30dc0e4e339109fbf8b9b"
+          },
+          "es-ES": {
+            "eTag": "4e5506db013c4cd3eb88fd9bb6f266f4"
+          },
+          "fr-FR": {
+            "eTag": "25b56e4ebcbdcba0ec21f041b2b63f94"
+          },
+          "pt-BR": {
+            "eTag": "6bbac624166388e559e9de54e5f854c9"
+          },
+          "fr-CA": {
+            "eTag": "080f2b1d5fa4f65be969a05d16f044fb"
+          },
+          "it-IT": {
+            "eTag": "1057f9460ada9b52bf36511b96232073"
+          }
+        },
+        "lambda": [
+          {
+            "alexaUsage": [
+              "custom/default"
+            ],
+            "arn": "arn:aws:lambda:us-east-1:430574503643:function:ask-custom-El_Davantal-default",
+            "awsRegion": "us-east-1",
+            "codeUri": "lambda/custom",
+            "functionName": "ask-custom-El_Davantal-default",
+            "handler": "index.handler",
+            "revisionId": "0afc8fa0-23da-41f4-9734-c5964007cd2c",
+            "runtime": "nodejs10.x"
+          }
+        ]
+      }
     }
   }
 }
