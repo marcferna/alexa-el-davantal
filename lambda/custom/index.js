@@ -412,7 +412,7 @@ exports.handler = Alexa.SkillBuilders.custom()
     LaunchRequestHandler,
     HelloWorldIntentHandler,
     StartPlaybackHandler,
-    PausePlaybackHandler
+    PausePlaybackHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     FallbackIntentHandler,
