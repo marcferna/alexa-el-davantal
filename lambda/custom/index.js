@@ -8,6 +8,36 @@ const Alexa = require('ask-sdk-core');
 const i18n = require('i18next');
 // i18n strings for all supported locales
 const languageStrings = require('./languageStrings');
+var xpath = require('xpath')
+var dom = require('xmldom').DOMParser
+const xmlser = require('xmlserializer');
+const parse5 = require('parse5');
+const fetch = require("node-fetch");
+const moment = require('moment');
+
+const getData = async (url, date) => {
+  try {
+    const from = moment(date).format("DD/MM/YYYY");
+    const to = moment(date).add(1, 'day').format("DD/MM/YYYY");
+    const response = await fetch(url + `?programId=el-mon&sectionId=el-davantal&from=${from}&to=${to}`);
+    const text = await response.text()
+    const document = parse5.parse(text);
+    const xhtml = xmlser.serializeToString(document);
+    const doc = new dom().parseFromString(xhtml);
+    const select = xpath.useNamespaces({"x": "http://www.w3.org/1999/xhtml"});
+    const nodes = select("//x:div[@class=\"audioteca-listed-search\"]//x:ul//x:li/@data-audio-id", doc);
+    const audioId = nodes[0].value
+    console.log(audioId)
+
+    const audioResponse = await fetch(`https://api.audioteca.rac1.cat/piece/audio?id=${audioId}`)
+    const json = await audioResponse.json();
+    const finalUrl = json.path
+    console.log("HERE IT COMES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    console.log(finalUrl)
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
@@ -29,7 +59,11 @@ const HelloWorldIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
     },
     handle(handlerInput) {
-        const speakOutput = handlerInput.t('HELLO_MSG');
+        const speakOutput = "Hola!!!2";
+
+        let date = new Date(2020, 2, 13)
+        getData("https://api.audioteca.rac1.cat//a-la-carta/cerca", date);
+
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -70,7 +104,7 @@ const CancelAndStopIntentHandler = {
 /* *
  * FallbackIntent triggers when a customer says something that doesn’t map to any intents in your skill
  * It must also be defined in the language model (if the locale supports it)
- * This handler can be safely added but will be ingnored in locales that do not support it yet 
+ * This handler can be safely added but will be ingnored in locales that do not support it yet
  * */
 const FallbackIntentHandler = {
     canHandle(handlerInput) {
@@ -87,9 +121,9 @@ const FallbackIntentHandler = {
     }
 };
 /* *
- * SessionEndedRequest notifies that a session was ended. This handler will be triggered when a currently open 
- * session is closed for one of the following reasons: 1) The user says "exit" or "quit". 2) The user does not 
- * respond or says something that does not match an intent defined in your voice model. 3) An error occurs 
+ * SessionEndedRequest notifies that a session was ended. This handler will be triggered when a currently open
+ * session is closed for one of the following reasons: 1) The user says "exit" or "quit". 2) The user does not
+ * respond or says something that does not match an intent defined in your voice model. 3) An error occurs
  * */
 const SessionEndedRequestHandler = {
     canHandle(handlerInput) {
@@ -103,8 +137,8 @@ const SessionEndedRequestHandler = {
 };
 /* *
  * The intent reflector is used for interaction model testing and debugging.
- * It will simply repeat the intent the user said. You can create custom handlers for your intents 
- * by defining them above, then also adding them to the request handler chain below 
+ * It will simply repeat the intent the user said. You can create custom handlers for your intents
+ * by defining them above, then also adding them to the request handler chain below
  * */
 const IntentReflectorHandler = {
     canHandle(handlerInput) {
@@ -123,7 +157,7 @@ const IntentReflectorHandler = {
 /**
  * Generic error handling to capture any syntax or routing errors. If you receive an error
  * stating the request handler chain is not found, you have not implemented a handler for
- * the intent being invoked or included it in the skill builder below 
+ * the intent being invoked or included it in the skill builder below
  * */
 const ErrorHandler = {
     canHandle() {
@@ -154,7 +188,7 @@ const LocalisationRequestInterceptor = {
 /**
  * This handler acts as the entry point for your skill, routing all request and response
  * payloads to the handlers above. Make sure any new handlers or interceptors you've
- * defined are included below. The order matters - they're processed top to bottom 
+ * defined are included below. The order matters - they're processed top to bottom
  * */
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
