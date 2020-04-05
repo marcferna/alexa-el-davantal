@@ -157,6 +157,8 @@ const ErrorHandler = {
     handle(handlerInput, error) {
         const speakOutput = handlerInput.t('ERROR_MSG');
         console.log(`~~~~ Error handled: ${JSON.stringify(error)}`);
+        console.log(handlerInput)
+        console.log(error)
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -194,7 +196,7 @@ const controller = {
         null
       );
 
-    return responseBuilder.getResponse();
+    return handlerInput.responseBuilder.getResponse();
   },
   stop(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ controller#stop ~~~~~~~~~~~~~~")
