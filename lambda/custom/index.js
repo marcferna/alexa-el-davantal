@@ -130,10 +130,11 @@ const getData = async (url, date) => {
 // };
 
 const PlayAudioHandler = {
-  async canHandle(handlerInput) {
+  canHandle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ PlayAudioHandler#canHandle ~~~~~~~~~~~~~~");
     const request = handlerInput.requestEnvelope.request;
-    return request.intent.name === 'PlayAudio'
+    console.log(request);
+    return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio'
   },
   handle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ PlayAudioHandler#handle ~~~~~~~~~~~~~~");
@@ -142,7 +143,7 @@ const PlayAudioHandler = {
 };
 
 const StartPlaybackHandler = {
-  async canHandle(handlerInput) {
+  canHandle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~");
     const request = handlerInput.requestEnvelope.request;
     if (Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest') {
