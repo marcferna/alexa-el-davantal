@@ -182,12 +182,13 @@ const LocalisationRequestInterceptor = {
 const controller = {
   async play(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ controller#play ~~~~~~~~~~~~~~")
+    const audioUrl = await getData("https://api.audioteca.rac1.cat//a-la-carta/cerca", new Date(2020, 2, 13))
     handlerInput.responseBuilder
       .speak("This is El Davantal for date TODO")
       .withShouldEndSession(true)
       .addAudioPlayerPlayDirective(
         'REPLACE_ALL',
-        getData("https://api.audioteca.rac1.cat//a-la-carta/cerca", new Date(2020, 2, 13)),
+        audioUrl,
         "0",
         0,
         null
