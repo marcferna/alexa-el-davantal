@@ -134,6 +134,9 @@ const PlayAudioHandler = {
     console.log("~~~~~~~~~~~~~~~~~~~~~ PlayAudioHandler#canHandle ~~~~~~~~~~~~~~");
     const request = handlerInput.requestEnvelope.request;
     console.log(request);
+    if (Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest') {
+      return true;
+    }
     return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio'
   },
   handle(handlerInput) {
@@ -146,18 +149,8 @@ const StartPlaybackHandler = {
   canHandle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~");
     const request = handlerInput.requestEnvelope.request;
-    if (Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest') {
-      return true;
-    }
 
-    if (request.type === 'PlaybackController.PlayCommandIssued') {
-      return true;
-    }
-
-    if (request.type === 'IntentRequest') {
-      return request.intent.name === 'PlayAudio' ||
-        request.intent.name === 'AMAZON.ResumeIntent';
-    }
+    return request.intent.name === 'AMAZON.ResumeIntent'
   },
   handle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#handle ~~~~~~~~~~~~~~");
