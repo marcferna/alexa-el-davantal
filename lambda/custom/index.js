@@ -151,13 +151,13 @@ const HelloWorldIntentHandler = {
 const StartPlaybackHandler = {
   async canHandle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~");
-    const playbackInfo = await getPlaybackInfo(handlerInput);
+    // const playbackInfo = await getPlaybackInfo(handlerInput);
     const request = handlerInput.requestEnvelope.request;
 
     // console.log(playbackInfo, request.type, request.intent.name)
-    if (!playbackInfo.inPlaybackSession) {
-      return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio';
-    }
+    // if (!playbackInfo.inPlaybackSession) {
+    //   return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio';
+    // }
     if (request.type === 'PlaybackController.PlayCommandIssued') {
       return true;
     }
