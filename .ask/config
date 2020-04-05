@@ -16,7 +16,7 @@
             "eTag": "634e290ea1e2cd814f9cc2ec8898d85d"
           },
           "en-US": {
-            "eTag": "d85cb32b26cbe4bc760c734de4334270"
+            "eTag": "2e95fa624a446981903bef9ad0cfb2d0"
           },
           "en-AU": {
             "eTag": "7ffd3da6f91a4c5118a92530f5dc3823"
@@ -40,7 +40,7 @@
             "eTag": "f245e36640a10665a9e7535f313106c2"
           },
           "es-ES": {
-            "eTag": "b29d806209a8a1ba298d02b628fe9a60"
+            "eTag": "9db8bc1403cce6e615ef09aa339e5d68"
           },
           "fr-FR": {
             "eTag": "ec826ca2b05790bf5cb90f4e408d606d"
@@ -65,7 +65,7 @@
             "codeUri": "lambda/custom",
             "functionName": "ask-custom-El_Davantal-default",
             "handler": "index.handler",
-            "revisionId": "9750de45-7b66-4cb0-9dea-d0de75a47449",
+            "revisionId": "85b3941e-d9f4-4eda-8225-7a5a7b8f28d7",
             "runtime": "nodejs10.x"
           }
         ]
