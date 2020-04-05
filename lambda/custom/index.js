@@ -17,80 +17,85 @@ const moment = require('moment');
 
 const PlayAudioHandler = {
   canHandle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ PlayAudioHandler#canHandle ~~~~~~~~~~~~~~");
-    const request = handlerInput.requestEnvelope.request;
-    console.log(request);
+    console.log("~~~ PlayAudioHandler#canHandle");
+
     if (Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest') {
       return true;
     }
-    return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio'
+
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'IntentRequest' &&
+      request.intent.name === 'PlayAudio'
   },
   handle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ PlayAudioHandler#handle ~~~~~~~~~~~~~~");
-    return controller.play(handlerInput);
+    console.log("~~~ PlayAudioHandler#handle");
+    return controller.play(handlerInput, new Date(2020, 2, 13));
   },
 };
 
 const StartPlaybackHandler = {
   canHandle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~");
-    const request = handlerInput.requestEnvelope.request;
+    console.log("~~~ StartPlaybackHandler#canHandle");
 
-    return request.intent.name === 'AMAZON.ResumeIntent'
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'IntentRequest' &&
+      request.intent.name === 'AMAZON.ResumeIntent'
   },
   handle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#handle ~~~~~~~~~~~~~~");
-    return controller.play(handlerInput);
+    console.log("~~~ StartPlaybackHandler#handle");
+    return controller.play(handlerInput, new Date(2020, 2, 13));
   },
 };
 
 const PausePlaybackHandler = {
   async canHandle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#canHandle ~~~~~~~~~~~~~~");
-    // const playbackInfo = await getPlaybackInfo(handlerInput);
-    const request = handlerInput.requestEnvelope.request;
+    console.log("~~~ PausePlaybackHandler#canHandle");
 
-    // console.log(playbackInfo, request.type, request.intent.name)
-    // return playbackInfo.inPlaybackSession &&
-    return request.type === 'IntentRequest' &&
-      (request.intent.name === 'AMAZON.StopIntent' ||
+    const request = handlerInput.requestEnvelope.request;
+    return (
+      request.type === 'IntentRequest' &&
+      (
+        request.intent.name === 'AMAZON.StopIntent' ||
         request.intent.name === 'AMAZON.CancelIntent' ||
-        request.intent.name === 'AMAZON.PauseIntent');
+        request.intent.name === 'AMAZON.PauseIntent'
+      )
+    );
   },
   handle(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#handle ~~~~~~~~~~~~~~");
+    console.log("~~~ PausePlaybackHandler#handle");
     return controller.stop(handlerInput);
   },
 };
 
 const HelpIntentHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
-    },
-    handle(handlerInput) {
-        const speakOutput = handlerInput.t('HELP_MSG');
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+      && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
+  },
+  handle(handlerInput) {
+    const speakOutput = handlerInput.t('HELP_MSG');
 
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(speakOutput)
-            .getResponse();
-    }
+    return handlerInput.responseBuilder
+      .speak(speakOutput)
+      .reprompt(speakOutput)
+      .getResponse();
+  }
 };
 
 const CancelAndStopIntentHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
-                || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
-    },
-    handle(handlerInput) {
-        const speakOutput = handlerInput.t('GOODBYE_MSG');
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest' && (
+        Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent' ||
+        Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent'
+    );
+  },
+  handle(handlerInput) {
+    const speakOutput = handlerInput.t('GOODBYE_MSG');
 
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .getResponse();
-    }
+    return handlerInput.responseBuilder
+      .speak(speakOutput)
+      .getResponse();
+  }
 };
 /* *
  * FallbackIntent triggers when a customer says something that doesn’t map to any intents in your skill
@@ -98,18 +103,18 @@ const CancelAndStopIntentHandler = {
  * This handler can be safely added but will be ingnored in locales that do not support it yet
  * */
 const FallbackIntentHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
-    },
-    handle(handlerInput) {
-        const speakOutput = handlerInput.t('FALLBACK_MSG');
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+      && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
+  },
+  handle(handlerInput) {
+    const speakOutput = handlerInput.t('FALLBACK_MSG');
 
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(speakOutput)
-            .getResponse();
-    }
+    return handlerInput.responseBuilder
+      .speak(speakOutput)
+      .reprompt(speakOutput)
+      .getResponse();
+  }
 };
 /* *
  * SessionEndedRequest notifies that a session was ended. This handler will be triggered when a currently open
@@ -117,14 +122,14 @@ const FallbackIntentHandler = {
  * respond or says something that does not match an intent defined in your voice model. 3) An error occurs
  * */
 const SessionEndedRequestHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
-    },
-    handle(handlerInput) {
-        console.log(`~~~~ Session ended: ${JSON.stringify(handlerInput.requestEnvelope)}`);
-        // Any cleanup logic goes here.
-        return handlerInput.responseBuilder.getResponse(); // notice we send an empty response
-    }
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
+  },
+  handle(handlerInput) {
+    console.log(`~~~~ Session ended: ${JSON.stringify(handlerInput.requestEnvelope)}`);
+    // Any cleanup logic goes here.
+    return handlerInput.responseBuilder.getResponse(); // notice we send an empty response
+  }
 };
 /* *
  * The intent reflector is used for interaction model testing and debugging.
@@ -132,18 +137,18 @@ const SessionEndedRequestHandler = {
  * by defining them above, then also adding them to the request handler chain below
  * */
 const IntentReflectorHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
-    },
-    handle(handlerInput) {
-        const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
-        const speakOutput = handlerInput.t('REFLECTOR_MSG', {intentName: intentName});
+  canHandle(handlerInput) {
+    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
+  },
+  handle(handlerInput) {
+    const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
+    const speakOutput = handlerInput.t('REFLECTOR_MSG', {intentName: intentName});
 
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
-            .getResponse();
-    }
+    return handlerInput.responseBuilder
+      .speak(speakOutput)
+      //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
+      .getResponse();
+}
 };
 /**
  * Generic error handling to capture any syntax or routing errors. If you receive an error
@@ -151,40 +156,41 @@ const IntentReflectorHandler = {
  * the intent being invoked or included it in the skill builder below
  * */
 const ErrorHandler = {
-    canHandle() {
-        return true;
-    },
-    handle(handlerInput, error) {
-        const speakOutput = handlerInput.t('ERROR_MSG');
-        console.log(`~~~~ Error handled: ${JSON.stringify(error)}`);
-        console.log(handlerInput)
-        console.log(error)
+  canHandle() {
+    return true;
+  },
+  handle(handlerInput, error) {
+    const speakOutput = handlerInput.t('ERROR_MSG');
+    console.log(`~~~~ Error handled: ${JSON.stringify(error)}`);
+    console.log(handlerInput)
+    console.log(error)
 
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(speakOutput)
-            .getResponse();
-    }
+    return handlerInput.responseBuilder
+      .speak(speakOutput)
+      .reprompt(speakOutput)
+      .getResponse();
+  }
 };
 
 // This request interceptor will bind a translation function 't' to the handlerInput
 const LocalisationRequestInterceptor = {
-    process(handlerInput) {
-        i18n.init({
-            lng: Alexa.getLocale(handlerInput.requestEnvelope),
-            resources: languageStrings
-        }).then((t) => {
-            handlerInput.t = (...args) => t(...args);
-        });
-    }
+  process(handlerInput) {
+    i18n.init({
+      lng: Alexa.getLocale(handlerInput.requestEnvelope),
+      resources: languageStrings
+    }).then((t) => {
+      handlerInput.t = (...args) => t(...args);
+    });
+  }
 };
 
 /* HELPER FUNCTIONS */
 
 const controller = {
-  async play(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ controller#play ~~~~~~~~~~~~~~")
-    const audioUrl = await getData("https://api.audioteca.rac1.cat//a-la-carta/cerca", new Date(2020, 2, 13))
+  async play(handlerInput, date) {
+    console.log("~~~ controller#play")
+
+    const audioUrl = await getAudioUrl(date)
     handlerInput.responseBuilder
       .speak("This is El Davantal for date TODO")
       .withShouldEndSession(true)
@@ -199,18 +205,19 @@ const controller = {
     return handlerInput.responseBuilder.getResponse();
   },
   stop(handlerInput) {
-    console.log("~~~~~~~~~~~~~~~~~~~~~ controller#stop ~~~~~~~~~~~~~~")
+    console.log("~~~ controller#stop")
+
     return handlerInput.responseBuilder
       .addAudioPlayerStopDirective()
       .getResponse();
   },
 };
 
-const getData = async (url, date) => {
+const getAudioUrl = async (date) => {
   try {
     const from = moment(date).format("DD/MM/YYYY");
     const to = moment(date).add(1, 'day').format("DD/MM/YYYY");
-    const response = await fetch(url + `?programId=el-mon&sectionId=el-davantal&from=${from}&to=${to}`);
+    const response = await fetch(`https://api.audioteca.rac1.cat//a-la-carta/cerca?programId=el-mon&sectionId=el-davantal&from=${from}&to=${to}`);
     const text = await response.text()
     const document = parse5.parse(text);
     const xhtml = xmlser.serializeToString(document);
@@ -218,16 +225,13 @@ const getData = async (url, date) => {
     const select = xpath.useNamespaces({"x": "http://www.w3.org/1999/xhtml"});
     const nodes = select("//x:div[@class=\"audioteca-listed-search\"]//x:ul//x:li/@data-audio-id", doc);
     const audioId = nodes[0].value
-    console.log(audioId)
 
     const audioResponse = await fetch(`https://api.audioteca.rac1.cat/piece/audio?id=${audioId}`)
     const json = await audioResponse.json();
-    const finalUrl = json.path
-    console.log("HERE IT COMES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    console.log(finalUrl)
-    return finalUrl
+    return json.path
   } catch (error) {
     console.log(error);
+    return null
   }
 };
 
