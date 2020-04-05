@@ -337,51 +337,51 @@ const LocalisationRequestInterceptor = {
 
 /* HELPER FUNCTIONS */
 
-// async function getPlaybackInfo(handlerInput) {
-//   console.log("~~~~~~~~~~~~~~~~~~~~~ getPlaybackInfo ~~~~~~~~~~~~~~")
-//   const attributes = await handlerInput.attributesManager.getPersistentAttributes();
-//   console.log(attributes)
-//   return attributes.playbackInfo;
-// }
+async function getPlaybackInfo(handlerInput) {
+  console.log("~~~~~~~~~~~~~~~~~~~~~ getPlaybackInfo ~~~~~~~~~~~~~~");
+  const attributes = await handlerInput.attributesManager.getPersistentAttributes();
+  console.log(attributes)
+  return attributes.playbackInfo;
+}
 
-// const controller = {
-//   async play(handlerInput) {
-//     console.log("~~~~~~~~~~~~~~~~~~~~~ controller#play ~~~~~~~~~~~~~~")
-//     const {
-//       attributesManager,
-//       responseBuilder
-//     } = handlerInput;
+const controller = {
+  async play(handlerInput) {
+    console.log("~~~~~~~~~~~~~~~~~~~~~ controller#play ~~~~~~~~~~~~~~")
+    const {
+      attributesManager,
+      responseBuilder
+    } = handlerInput;
 
-//     const playbackInfo = await getPlaybackInfo(handlerInput);
-//     const {
-//       playOrder,
-//       offsetInMilliseconds,
-//       index
-//     } = playbackInfo;
+    const playbackInfo = await getPlaybackInfo(handlerInput);
+    const {
+      playOrder,
+      offsetInMilliseconds,
+      index
+    } = playbackInfo;
 
-//     const playBehavior = 'REPLACE_ALL';
-//     // const podcast = constants.audioData[playOrder[index]];
-//     const token = playOrder[index];
-//     playbackInfo.nextStreamEnqueued = false;
+    const playBehavior = 'REPLACE_ALL';
+    // const podcast = constants.audioData[playOrder[index]];
+    const token = playOrder[index];
+    playbackInfo.nextStreamEnqueued = false;
 
-//     console.log(playbackInfo, playOrder, offsetInMilliseconds, index, token)
-//     responseBuilder
-//       .speak("This is El Davantal for date TODO")
-//       .withShouldEndSession(true)
-//       .addAudioPlayerPlayDirective(playBehavior, "https://audioserver.rac1.cat/get/4c9c1384-06c3-4388-88ef-a41a69712658/1/2020-03-13-el-mon-a-rac1-el-davantal-empatia-i-responsabilitat.mp3?source=WEB", token, offsetInMilliseconds, null);
+    console.log(playbackInfo, playOrder, offsetInMilliseconds, index, token)
+    responseBuilder
+      .speak("This is El Davantal for date TODO")
+      .withShouldEndSession(true)
+      .addAudioPlayerPlayDirective(playBehavior, "https://audioserver.rac1.cat/get/4c9c1384-06c3-4388-88ef-a41a69712658/1/2020-03-13-el-mon-a-rac1-el-davantal-empatia-i-responsabilitat.mp3?source=WEB", token, 0, null);
 
-//     return responseBuilder.getResponse();
-//   },
-//   stop(handlerInput) {
-//     console.log("~~~~~~~~~~~~~~~~~~~~~ controller#stop ~~~~~~~~~~~~~~")
-//     return handlerInput.responseBuilder
-//       .addAudioPlayerStopDirective()
-//       .getResponse();
-//   },
-// };
+    return responseBuilder.getResponse();
+  },
+  stop(handlerInput) {
+    console.log("~~~~~~~~~~~~~~~~~~~~~ controller#stop ~~~~~~~~~~~~~~")
+    return handlerInput.responseBuilder
+      .addAudioPlayerStopDirective()
+      .getResponse();
+  },
+};
 
 // function getToken(handlerInput) {
-//   console.log("~~~~~~~~~~~~~~~~~~~~~ getToken ~~~~~~~~~~~~~~")
+//   console.log("~~~~~~~~~~~~~~~~~~~~~ getToken ~~~~~~~~~~~~~~");
 //   // Extracting token received in the request.
 //   return handlerInput.requestEnvelope.request.token;
 // }
