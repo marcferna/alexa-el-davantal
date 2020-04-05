@@ -352,19 +352,20 @@ const controller = {
       responseBuilder
     } = handlerInput;
 
-    const playbackInfo = await getPlaybackInfo(handlerInput);
-    const {
-      playOrder,
-      offsetInMilliseconds,
-      index
-    } = playbackInfo;
+    // const playbackInfo = await getPlaybackInfo(handlerInput);
+    // const {
+    //   playOrder,
+    //   offsetInMilliseconds,
+    //   index
+    // } = playbackInfo;
 
     const playBehavior = 'REPLACE_ALL';
     // const podcast = constants.audioData[playOrder[index]];
-    const token = playOrder[index];
-    playbackInfo.nextStreamEnqueued = false;
+    // const token = playOrder[index];
+    const token = "0"
+    // playbackInfo.nextStreamEnqueued = false;
 
-    console.log(playbackInfo, playOrder, offsetInMilliseconds, index, token)
+    // console.log(playbackInfo, playOrder, offsetInMilliseconds, index, token)
     responseBuilder
       .speak("This is El Davantal for date TODO")
       .withShouldEndSession(true)
