@@ -222,6 +222,7 @@ const getData = async (url, date) => {
     const finalUrl = json.path
     console.log("HERE IT COMES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     console.log(finalUrl)
+    return finalUrl
   } catch (error) {
     console.log(error);
   }
