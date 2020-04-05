@@ -176,12 +176,12 @@ const StartPlaybackHandler = {
 const PausePlaybackHandler = {
   async canHandle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ PausePlaybackHandler#canHandle ~~~~~~~~~~~~~~");
-    const playbackInfo = await getPlaybackInfo(handlerInput);
+    // const playbackInfo = await getPlaybackInfo(handlerInput);
     const request = handlerInput.requestEnvelope.request;
 
     // console.log(playbackInfo, request.type, request.intent.name)
-    return playbackInfo.inPlaybackSession &&
-      request.type === 'IntentRequest' &&
+    // return playbackInfo.inPlaybackSession &&
+    return request.type === 'IntentRequest' &&
       (request.intent.name === 'AMAZON.StopIntent' ||
         request.intent.name === 'AMAZON.CancelIntent' ||
         request.intent.name === 'AMAZON.PauseIntent');
