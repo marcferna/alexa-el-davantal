@@ -129,6 +129,18 @@ const getData = async (url, date) => {
 //   },
 // };
 
+const PlayAudioHandler = {
+  async canHandle(handlerInput) {
+    console.log("~~~~~~~~~~~~~~~~~~~~~ PlayAudioHandler#canHandle ~~~~~~~~~~~~~~");
+    const request = handlerInput.requestEnvelope.request;
+    return request.intent.name === 'PlayAudio'
+  },
+  handle(handlerInput) {
+    console.log("~~~~~~~~~~~~~~~~~~~~~ PlayAudioHandler#handle ~~~~~~~~~~~~~~");
+    return controller.play(handlerInput);
+  },
+};
+
 const StartPlaybackHandler = {
   async canHandle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~");
@@ -389,6 +401,7 @@ const controller = {
  * */
 exports.handler = Alexa.SkillBuilders.custom()
   .addRequestHandlers(
+    PlayAudioHandler,
     StartPlaybackHandler,
     PausePlaybackHandler,
     HelpIntentHandler,
