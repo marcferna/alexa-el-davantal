@@ -39,19 +39,19 @@ const getData = async (url, date) => {
   }
 };
 
-const LaunchRequestHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
-    },
-    handle(handlerInput) {
-        const speakOutput = handlerInput.t('WELCOME_MSG');
+// const LaunchRequestHandler = {
+//     canHandle(handlerInput) {
+//         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
+//     },
+//     handle(handlerInput) {
+//         const speakOutput = handlerInput.t('WELCOME_MSG');
 
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            .reprompt(speakOutput)
-            .getResponse();
-    }
-};
+//         return handlerInput.responseBuilder
+//             .speak(speakOutput)
+//             .reprompt(speakOutput)
+//             .getResponse();
+//     }
+// };
 
 // const AudioPlayerEventHandler = {
 //   canHandle(handlerInput) {
@@ -132,13 +132,11 @@ const LaunchRequestHandler = {
 const StartPlaybackHandler = {
   async canHandle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ StartPlaybackHandler#canHandle ~~~~~~~~~~~~~~");
-    // const playbackInfo = await getPlaybackInfo(handlerInput);
     const request = handlerInput.requestEnvelope.request;
+    if (Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest') {
+      return true;
+    }
 
-    // console.log(playbackInfo, request.type, request.intent.name)
-    // if (!playbackInfo.inPlaybackSession) {
-    //   return request.type === 'IntentRequest' && request.intent.name === 'PlayAudio';
-    // }
     if (request.type === 'PlaybackController.PlayCommandIssued') {
       return true;
     }
@@ -391,8 +389,6 @@ const controller = {
  * */
 exports.handler = Alexa.SkillBuilders.custom()
   .addRequestHandlers(
-    LaunchRequestHandler,
-    HelloWorldIntentHandler,
     StartPlaybackHandler,
     PausePlaybackHandler,
     HelpIntentHandler,
