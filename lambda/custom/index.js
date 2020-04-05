@@ -15,120 +15,6 @@ const parse5 = require('parse5');
 const fetch = require("node-fetch");
 const moment = require('moment');
 
-const getData = async (url, date) => {
-  try {
-    const from = moment(date).format("DD/MM/YYYY");
-    const to = moment(date).add(1, 'day').format("DD/MM/YYYY");
-    const response = await fetch(url + `?programId=el-mon&sectionId=el-davantal&from=${from}&to=${to}`);
-    const text = await response.text()
-    const document = parse5.parse(text);
-    const xhtml = xmlser.serializeToString(document);
-    const doc = new dom().parseFromString(xhtml);
-    const select = xpath.useNamespaces({"x": "http://www.w3.org/1999/xhtml"});
-    const nodes = select("//x:div[@class=\"audioteca-listed-search\"]//x:ul//x:li/@data-audio-id", doc);
-    const audioId = nodes[0].value
-    console.log(audioId)
-
-    const audioResponse = await fetch(`https://api.audioteca.rac1.cat/piece/audio?id=${audioId}`)
-    const json = await audioResponse.json();
-    const finalUrl = json.path
-    console.log("HERE IT COMES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    console.log(finalUrl)
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// const LaunchRequestHandler = {
-//     canHandle(handlerInput) {
-//         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
-//     },
-//     handle(handlerInput) {
-//         const speakOutput = handlerInput.t('WELCOME_MSG');
-
-//         return handlerInput.responseBuilder
-//             .speak(speakOutput)
-//             .reprompt(speakOutput)
-//             .getResponse();
-//     }
-// };
-
-// const AudioPlayerEventHandler = {
-//   canHandle(handlerInput) {
-//     console.log("~~~~~~~~~~~~~~~~~~~~~ AudioPlayerEventHandler#canHandle ~~~~~~~~~~~~~~")
-//     return handlerInput.requestEnvelope.request.type.startsWith('AudioPlayer.');
-//   },
-//   async handle(handlerInput) {
-//     console.log("~~~~~~~~~~~~~~~~~~~~~ AudioPlayerEventHandler#handle ~~~~~~~~~~~~~~")
-//     const {
-//       requestEnvelope,
-//       attributesManager,
-//       responseBuilder
-//     } = handlerInput;
-//     const audioPlayerEventName = requestEnvelope.request.type.split('.')[1];
-//     const {
-//       playbackSetting,
-//       playbackInfo
-//     } = await attributesManager.getPersistentAttributes();
-
-//     switch (audioPlayerEventName) {
-//       case 'PlaybackStarted':
-//         playbackInfo.token = getToken(handlerInput);
-//         playbackInfo.index = await getIndex(handlerInput);
-//         playbackInfo.inPlaybackSession = true;
-//         playbackInfo.hasPreviousPlaybackSession = true;
-//         break;
-//       case 'PlaybackFinished':
-//         playbackInfo.inPlaybackSession = false;
-//         playbackInfo.hasPreviousPlaybackSession = false;
-//         playbackInfo.nextStreamEnqueued = false;
-//         break;
-//       case 'PlaybackStopped':
-//         playbackInfo.token = getToken(handlerInput);
-//         playbackInfo.index = await getIndex(handlerInput);
-//         playbackInfo.offsetInMilliseconds = getOffsetInMilliseconds(handlerInput);
-//         break;
-//       case 'PlaybackNearlyFinished':
-//         {
-//           if (playbackInfo.nextStreamEnqueued) {
-//             break;
-//           }
-
-//           const enqueueIndex = (playbackInfo.index + 1) % constants.audioData.length;
-
-//           if (enqueueIndex === 0 && !playbackSetting.loop) {
-//             break;
-//           }
-
-//           playbackInfo.nextStreamEnqueued = true;
-
-//           const enqueueToken = playbackInfo.playOrder[enqueueIndex];
-//           const playBehavior = 'ENQUEUE';
-//           const podcast = constants.audioData[playbackInfo.playOrder[enqueueIndex]];
-//           const expectedPreviousToken = playbackInfo.token;
-//           const offsetInMilliseconds = 0;
-
-//           responseBuilder.addAudioPlayerPlayDirective(
-//             playBehavior,
-//             podcast.url,
-//             enqueueToken,
-//             offsetInMilliseconds,
-//             expectedPreviousToken,
-//           );
-//           break;
-//         }
-//       case 'PlaybackFailed':
-//         playbackInfo.inPlaybackSession = false;
-//         console.log('Playback Failed : %j', handlerInput.requestEnvelope.request.error);
-//         return;
-//       default:
-//         throw new Error('Should never reach here!');
-//     }
-
-//     return responseBuilder.getResponse();
-//   },
-// };
-
 const PlayAudioHandler = {
   canHandle(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ PlayAudioHandler#canHandle ~~~~~~~~~~~~~~");
@@ -291,70 +177,21 @@ const LocalisationRequestInterceptor = {
     }
 };
 
-/* INTERCEPTORS */
-
-// const LoadPersistentAttributesRequestInterceptor = {
-//   async process(handlerInput) {
-//     const persistentAttributes = await handlerInput.attributesManager.getPersistentAttributes();
-
-//     // Check if user is invoking the skill the first time and initialize preset values
-//     if (Object.keys(persistentAttributes).length === 0) {
-//       handlerInput.attributesManager.setPersistentAttributes({
-//         playbackSetting: {
-//           loop: false,
-//           shuffle: false,
-//         },
-//         playbackInfo: {
-//           playOrder: [...Array(constants.audioData.length).keys()],
-//           index: 0,
-//           offsetInMilliseconds: 0,
-//           playbackIndexChanged: true,
-//           token: '',
-//           nextStreamEnqueued: false,
-//           inPlaybackSession: false,
-//           hasPreviousPlaybackSession: false,
-//         },
-//       });
-//     }
-//   },
-// };
-
-
 /* HELPER FUNCTIONS */
-
-async function getPlaybackInfo(handlerInput) {
-  console.log("~~~~~~~~~~~~~~~~~~~~~ getPlaybackInfo ~~~~~~~~~~~~~~");
-  const attributes = await handlerInput.attributesManager.getPersistentAttributes();
-  console.log(attributes)
-  return attributes.playbackInfo;
-}
 
 const controller = {
   async play(handlerInput) {
     console.log("~~~~~~~~~~~~~~~~~~~~~ controller#play ~~~~~~~~~~~~~~")
-    const {
-      attributesManager,
-      responseBuilder
-    } = handlerInput;
-
-    // const playbackInfo = await getPlaybackInfo(handlerInput);
-    // const {
-    //   playOrder,
-    //   offsetInMilliseconds,
-    //   index
-    // } = playbackInfo;
-
-    const playBehavior = 'REPLACE_ALL';
-    // const podcast = constants.audioData[playOrder[index]];
-    // const token = playOrder[index];
-    const token = "0"
-    // playbackInfo.nextStreamEnqueued = false;
-
-    // console.log(playbackInfo, playOrder, offsetInMilliseconds, index, token)
-    responseBuilder
+    handlerInput.responseBuilder
       .speak("This is El Davantal for date TODO")
       .withShouldEndSession(true)
-      .addAudioPlayerPlayDirective(playBehavior, "https://audioserver.rac1.cat/get/4c9c1384-06c3-4388-88ef-a41a69712658/1/2020-03-13-el-mon-a-rac1-el-davantal-empatia-i-responsabilitat.mp3?source=WEB", token, 0, null);
+      .addAudioPlayerPlayDirective(
+        'REPLACE_ALL',
+        getData("https://api.audioteca.rac1.cat//a-la-carta/cerca", new Date(2020, 2, 13)),
+        "0",
+        0,
+        null
+      );
 
     return responseBuilder.getResponse();
   },
@@ -366,27 +203,29 @@ const controller = {
   },
 };
 
-// function getToken(handlerInput) {
-//   console.log("~~~~~~~~~~~~~~~~~~~~~ getToken ~~~~~~~~~~~~~~");
-//   // Extracting token received in the request.
-//   return handlerInput.requestEnvelope.request.token;
-// }
+const getData = async (url, date) => {
+  try {
+    const from = moment(date).format("DD/MM/YYYY");
+    const to = moment(date).add(1, 'day').format("DD/MM/YYYY");
+    const response = await fetch(url + `?programId=el-mon&sectionId=el-davantal&from=${from}&to=${to}`);
+    const text = await response.text()
+    const document = parse5.parse(text);
+    const xhtml = xmlser.serializeToString(document);
+    const doc = new dom().parseFromString(xhtml);
+    const select = xpath.useNamespaces({"x": "http://www.w3.org/1999/xhtml"});
+    const nodes = select("//x:div[@class=\"audioteca-listed-search\"]//x:ul//x:li/@data-audio-id", doc);
+    const audioId = nodes[0].value
+    console.log(audioId)
 
-// async function getIndex(handlerInput) {
-//   console.log("~~~~~~~~~~~~~~~~~~~~~ getIndex ~~~~~~~~~~~~~~")
-//   // Extracting index from the token received in the request.
-//   const tokenValue = parseInt(handlerInput.requestEnvelope.request.token, 10);
-//   const attributes = await handlerInput.attributesManager.getPersistentAttributes();
-
-//   console.log(tokenValue, attributes)
-//   return attributes.playbackInfo.playOrder.indexOf(tokenValue);
-// }
-
-// function getOffsetInMilliseconds(handlerInput) {
-//   console.log("~~~~~~~~~~~~~~~~~~~~~ getOffsetInMilliseconds ~~~~~~~~~~~~~~")
-//   // Extracting offsetInMilliseconds received in the request.
-//   return handlerInput.requestEnvelope.request.offsetInMilliseconds;
-// }
+    const audioResponse = await fetch(`https://api.audioteca.rac1.cat/piece/audio?id=${audioId}`)
+    const json = await audioResponse.json();
+    const finalUrl = json.path
+    console.log("HERE IT COMES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    console.log(finalUrl)
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 /**
  * This handler acts as the entry point for your skill, routing all request and response
