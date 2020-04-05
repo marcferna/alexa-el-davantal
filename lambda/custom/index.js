@@ -53,25 +53,6 @@ const LaunchRequestHandler = {
     }
 };
 
-const HelloWorldIntentHandler = {
-    canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
-    },
-    handle(handlerInput) {
-        const speakOutput = "Hola!!!2";
-
-        let date = new Date(2020, 2, 13)
-        getData("https://api.audioteca.rac1.cat//a-la-carta/cerca", date);
-
-
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
-            .getResponse();
-    }
-};
-
 // const AudioPlayerEventHandler = {
 //   canHandle(handlerInput) {
 //     console.log("~~~~~~~~~~~~~~~~~~~~~ AudioPlayerEventHandler#canHandle ~~~~~~~~~~~~~~")
