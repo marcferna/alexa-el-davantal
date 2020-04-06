@@ -224,9 +224,13 @@ const getAudioDate = () => {
 }
 
 const getAudioUrl = async (date) => {
+  console.log("~~~ getAudioUrl")
+  console.log(date)
   try {
     const from = date.format("DD/MM/YYYY");
+    console.log(from)
     const to = date.add(1, 'day').format("DD/MM/YYYY");
+    console.log(to)
     const response = await fetch(`https://api.audioteca.rac1.cat//a-la-carta/cerca?programId=el-mon&sectionId=el-davantal&from=${from}&to=${to}`);
     const text = await response.text()
     const document = parse5.parse(text);
