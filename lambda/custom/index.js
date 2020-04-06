@@ -191,18 +191,22 @@ const controller = {
     console.log("~~~ controller#play")
 
     const audioUrl = await getAudioUrl(date)
-    handlerInput.responseBuilder
-      .speak(
-        handlerInput.t('PRE_AUDIO_MESSAGE', { date: date.format("dddd, MMMM Do YYYY") })
-      )
-      .withShouldEndSession(true)
-      .addAudioPlayerPlayDirective(
-        'REPLACE_ALL',
-        audioUrl,
-        "0",
-        0,
-        null
-      );
+    if (audioUrl) {
+      handlerInput.responseBuilder
+        .speak(
+          handlerInput.t('PRE_AUDIO_MESSAGE', { date: date.format("dddd, MMMM Do YYYY") })
+        )
+        .withShouldEndSession(true)
+        .addAudioPlayerPlayDirective(
+          'REPLACE_ALL',
+          audioUrl,
+          "0",
+          0,
+          null
+        );
+    } else {
+      handlerInput.responseBuilder.speak(handlerInput.t('NO_AUDIO'));
+    }
 
     return handlerInput.responseBuilder.getResponse();
   },
@@ -224,13 +228,10 @@ const getAudioDate = () => {
 }
 
 const getAudioUrl = async (date) => {
-  console.log("~~~ getAudioUrl")
-  console.log(date)
+  console.log("~~~ getAudioUrl", date)
   try {
     const from = date.format("DD/MM/YYYY");
-    console.log(from)
     const to = date.add(1, 'day').format("DD/MM/YYYY");
-    console.log(to)
     const response = await fetch(`https://api.audioteca.rac1.cat//a-la-carta/cerca?programId=el-mon&sectionId=el-davantal&from=${from}&to=${to}`);
     const text = await response.text()
     const document = parse5.parse(text);

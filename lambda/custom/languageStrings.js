@@ -9,6 +9,7 @@ module.exports = {
   en: {
     translation: {
       PRE_AUDIO: 'Here you have today\'s El Davantal.',
+      NO_AUDIO: 'Sorry, I can\'t find today\'s episode of El Davantal, please try again later.',
       HELP: 'How can I help? You can say play to me!',
       GOODBYE: 'Goodbye!',
       REFLECTOR: 'You just triggered {{intentName}}',
@@ -19,6 +20,7 @@ module.exports = {
   es: {
     translation: {
       PRE_AUDIO: 'Aqui tienes El Davantal de hoy.',
+      NO_AUDIO: 'Lo siento, no he encontrado El Davantal de hoy todavía, prueba más tarde.',
       HELP: 'Cómo te puedo ayudar? Puedes decirme reproduce!',
       GOODBYE: 'Hasta luego!',
       REFLECTOR: 'Acabas de activar {{intentName}}',
