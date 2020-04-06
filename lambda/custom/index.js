@@ -73,7 +73,7 @@ const HelpIntentHandler = {
       && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
   },
   handle(handlerInput) {
-    const speakOutput = handlerInput.t('HELP_MSG');
+    const speakOutput = handlerInput.t('HELP');
 
     return handlerInput.responseBuilder
       .speak(speakOutput)
@@ -90,7 +90,7 @@ const CancelAndStopIntentHandler = {
     );
   },
   handle(handlerInput) {
-    const speakOutput = handlerInput.t('GOODBYE_MSG');
+    const speakOutput = handlerInput.t('GOODBYE');
 
     return handlerInput.responseBuilder
       .speak(speakOutput)
@@ -108,7 +108,7 @@ const FallbackIntentHandler = {
       && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
   },
   handle(handlerInput) {
-    const speakOutput = handlerInput.t('FALLBACK_MSG');
+    const speakOutput = handlerInput.t('FALLBACK');
 
     return handlerInput.responseBuilder
       .speak(speakOutput)
@@ -142,7 +142,7 @@ const IntentReflectorHandler = {
   },
   handle(handlerInput) {
     const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
-    const speakOutput = handlerInput.t('REFLECTOR_MSG', {intentName: intentName});
+    const speakOutput = handlerInput.t('REFLECTOR', {intentName: intentName});
 
     return handlerInput.responseBuilder
       .speak(speakOutput)
@@ -160,7 +160,7 @@ const ErrorHandler = {
     return true;
   },
   handle(handlerInput, error) {
-    const speakOutput = handlerInput.t('ERROR_MSG');
+    const speakOutput = handlerInput.t('ERROR');
     console.log(`~~~~ Error handled: ${JSON.stringify(error)}`);
     console.log(handlerInput)
     console.log(error)
@@ -192,7 +192,7 @@ const controller = {
 
     const audioUrl = await getAudioUrl(date)
     handlerInput.responseBuilder
-      .speak("This is El Davantal for date TODO")
+      .speak(handlerInput.t('PRE_AUDIO_MESSAGE'))
       .withShouldEndSession(true)
       .addAudioPlayerPlayDirective(
         'REPLACE_ALL',
