@@ -4,30 +4,32 @@
       "locales": {
         "en-US": {
           "name": "El Davantal",
-          "summary": "Sample Short Description",
-          "description": "Sample Full Description",
+          "summary": "Daily El Davantal section from El Món a Rac1 radio show",
+          "description": "Short news snipped by Jordi Basté in his radio show El Món a Rac1",
+          "smallIconUri": "https://marc-ferna-alexa-skills.s3.amazonaws.com/el-davantal/logo-small.png",
+          "largeIconUri": "https://marc-ferna-alexa-skills.s3.amazonaws.com/el-davantal/logo-large.png",
           "examplePhrases": [
-            "Alexa open hello world",
-            "hello",
-            "help"
+            "Alexa play El Davantal",
+            "Alexa open El Davantal"
           ],
-          "keywords": []
+          "keywords": ["rac1", "jordi baste", "radio", "el davantal", "el mon"]
         },
         "es-ES": {
           "name": "El Davantal",
-          "summary": "Sample Short Description",
-          "description": "Sample Full Description",
+          "summary": "Secció El Davantal del programa da radio de El Món a Rac1",
+          "description": "Curt audio que fa el Jordi Basté al seu programa de radio El Món a Rac1",
+          "smallIconUri": "https://marc-ferna-alexa-skills.s3.amazonaws.com/el-davantal/logo-small.png",
+          "largeIconUri": "https://marc-ferna-alexa-skills.s3.amazonaws.com/el-davantal/logo-large.png",
           "examplePhrases": [
-            "Alexa abre hola mundo",
-            "hola",
-            "ayuda"
+            "Alexa abre el davantal",
+            "Alexa reproduce el davantal"
           ],
-          "keywords": []
+          "keywords": ["rac1", "jordi baste", "radio", "el davantal", "el mon"]
         }
       },
       "isAvailableWorldwide": true,
       "testingInstructions": "Sample Testing Instructions.",
-      "category": "KNOWLEDGE_AND_TRIVIA",
+      "category": "STREAMING_SERVICE",
       "distributionCountries": []
     },
     "apis": {
@@ -43,6 +45,14 @@
         ]
       }
     },
-    "manifestVersion": "1.0"
+    "manifestVersion": "1.0",
+    "permissions": [],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "isChildDirected": false,
+      "usesPersonalInfo": false
+    }
   }
 }

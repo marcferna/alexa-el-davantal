@@ -1,61 +1,57 @@
 {
-    "interactionModel": {
-        "languageModel": {
-            "invocationName": "hello world",
-            "intents": [
-                {
-                  "name": "PlayAudio",
-                  "samples": [
-                    "play",
-                    "start",
-                    "play my radio",
-                    "play my radio please",
-                    "start my radio",
-                    "start my radio please",
-                    "start the radio",
-                    "start the radio please",
-                    "start the audio",
-                    "start the audio please",
-                    "play the audio",
-                    "play the audio please",
-                    "start the music",
-                    "start the music please",
-                    "play the music",
-                    "play the music please"
-                  ]
-                },
-                {
-                    "name": "AMAZON.CancelIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.HelpIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.StopIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.PauseIntent",
-                    "slots": [],
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.ResumeIntent",
-                    "slots": [],
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.NavigateHomeIntent",
-                    "samples": []
-                },
-                {
-                    "name": "AMAZON.FallbackIntent",
-                    "samples": []
-                }
-            ],
-            "types": []
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "el davantal",
+      "intents": [
+        {
+          "name": "PlayAudio",
+          "samples": [
+            "play",
+            "start",
+            "play el davantal",
+            "play el davantal please",
+            "start el davantal",
+            "start el davantal please",
+            "start el davantal",
+            "start el davantal please",
+            "start the audio",
+            "start the audio please",
+            "play the audio",
+            "play the audio please"
+          ]
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.PauseIntent",
+          "slots": [],
+          "samples": []
+        },
+        {
+          "name": "AMAZON.ResumeIntent",
+          "slots": [],
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
         }
+      ],
+      "types": []
     }
+  }
 }
