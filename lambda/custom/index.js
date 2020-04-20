@@ -194,7 +194,7 @@ const controller = {
     if (audioUrl) {
       handlerInput.responseBuilder
         .speak(
-          handlerInput.t('PRE_AUDIO_MESSAGE', { date: date.format("dddd, MMMM Do YYYY") })
+          handlerInput.t('PRE_AUDIO', { date: date.format("dddd, MMMM Do YYYY") })
         )
         .withShouldEndSession(true)
         .addAudioPlayerPlayDirective(
