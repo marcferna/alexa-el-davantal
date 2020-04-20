@@ -4,8 +4,8 @@
       "locales": {
         "en-US": {
           "name": "El Davantal",
-          "summary": "Daily El Davantal section from El Món a Rac1 radio show",
-          "description": "Short news snipped by Jordi Basté in his radio show El Món a Rac1",
+          "summary": "Daily news section from catalan radio show 'El Món a Rac1'",
+          "description": "Short news snippet by Jordi Basté in his radio show 'El Món a Rac1'",
           "smallIconUri": "https://marc-ferna-alexa-skills.s3.amazonaws.com/el-davantal/logo-small.png",
           "largeIconUri": "https://marc-ferna-alexa-skills.s3.amazonaws.com/el-davantal/logo-large.png",
           "examplePhrases": [
