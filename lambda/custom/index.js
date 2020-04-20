@@ -343,6 +343,6 @@ exports.handler = Alexa.SkillBuilders.custom()
   .addRequestInterceptors(
     LocalisationRequestInterceptor
   )
-  .withCustomUserAgent('sample/hello-world/v1.2')
+  .withCustomUserAgent('alexa/el-davantal/v0.0.1')
   .withApiClient(new Alexa.DefaultApiClient())
   .lambda();
