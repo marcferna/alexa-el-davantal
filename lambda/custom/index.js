@@ -13,7 +13,7 @@ var dom = require('xmldom').DOMParser
 const xmlser = require('xmlserializer');
 const parse5 = require('parse5');
 const fetch = require("node-fetch");
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 const PlayAudioHandler = {
   canHandle(handlerInput) {
@@ -29,7 +29,7 @@ const PlayAudioHandler = {
   },
   handle(handlerInput) {
     console.log("~~~ PlayAudioHandler#handle");
-    return controller.play(handlerInput, getAudioDate());
+    return controller.play(handlerInput, getAudioDate(handlerInput));
   },
 };
 
@@ -43,7 +43,7 @@ const StartPlaybackHandler = {
   },
   handle(handlerInput) {
     console.log("~~~ StartPlaybackHandler#handle");
-    return controller.play(handlerInput, getAudioDate());
+    return controller.play(handlerInput, getAudioDate(handlerInput));
   },
 };
 
@@ -219,12 +219,35 @@ const controller = {
   },
 };
 
-const getAudioDate = () => {
-  let date = moment();
+const getAudioDate = (handlerInput) => {
+  console.log("~~~ getAudioDate")
+
+  const timezone = await getTimezone(handlerInput)
+  let date = moment().tz(timezone);
   if (date.day() === 0 || date.day() === 6) {
     date = date.day(date.day() >= 5 ? 5 : -2);
   }
   return date;
+}
+
+const getTimezone = async (handlerInput) => {
+  console.log("~~~ getTimezone")
+
+  const serviceClientFactory = handlerInput.serviceClientFactory;
+  const deviceId = handlerInput.requestEnvelope.context.System.device.deviceId;
+
+  let userTimeZone;
+  try {
+    const upsServiceClient = serviceClientFactory.getUpsServiceClient();
+    userTimeZone = await upsServiceClient.getSystemTimeZone(deviceId);
+  } catch (error) {
+    if (error.name !== 'ServiceError') {
+      return handlerInput.responseBuilder.speak("There was a problem connecting to the service.").getResponse();
+    }
+    console.log('error', error.message);
+  }
+  console.log('userTimeZone', userTimeZone);
+  return userTimeZone
 }
 
 const getAudioUrl = async (date) => {
@@ -273,4 +296,5 @@ exports.handler = Alexa.SkillBuilders.custom()
     LocalisationRequestInterceptor
   )
   .withCustomUserAgent('sample/hello-world/v1.2')
+  .withApiClient(new Alexa.DefaultApiClient())
   .lambda();
