@@ -14,7 +14,8 @@ module.exports = {
       GOODBYE: 'Goodbye!',
       REFLECTOR: 'You just triggered {{intentName}}',
       FALLBACK: 'Sorry, I don\'t know about that. Please try again.',
-      ERROR: 'Sorry, I had trouble doing what you asked. Please try again.'
+      ERROR: 'Sorry, I had trouble doing what you asked. Please try again.',
+      FETCHING_AUDIO: 'Looking for today\'s episode of El Davantal',
     }
   },
   es: {
@@ -25,7 +26,8 @@ module.exports = {
       GOODBYE: 'Hasta luego!',
       REFLECTOR: 'Acabas de activar {{intentName}}',
       FALLBACK: 'Lo siento, no se nada sobre eso. Por favor inténtalo otra vez.',
-      ERROR: 'Lo siento, ha habido un error. Por favor inténtalo otra vez.'
+      ERROR: 'Lo siento, ha habido un error. Por favor inténtalo otra vez.',
+      FETCHING_AUDIO: 'Buscando el episodio de hoy de El Davantal.',
     }
   }
 }

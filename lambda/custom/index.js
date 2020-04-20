@@ -47,6 +47,21 @@ const StartPlaybackHandler = {
   },
 };
 
+const InProgressPlayAudioHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'IntentRequest' &&
+      request.intent.name === 'PlayAudio' &&
+      request.dialogState !== 'COMPLETED';
+  },
+  handle(handlerInput) {
+    const currentIntent = handlerInput.requestEnvelope.request.intent;
+    return handlerInput.responseBuilder
+      .addDelegateDirective(currentIntent)
+      .getResponse();
+  },
+};
+
 const PausePlaybackHandler = {
   async canHandle(handlerInput) {
     console.log("~~~ PausePlaybackHandler#canHandle");
@@ -190,6 +205,13 @@ const controller = {
   async play(handlerInput, date) {
     console.log("~~~ controller#play")
 
+    try {
+      await callDirectiveService(handlerInput);
+    } catch (error) {
+      // if it failed we can continue, just the user will wait longer for first response
+      console.log(error);
+    }
+
     const audioUrl = await getAudioUrl(date)
     if (audioUrl) {
       handlerInput.responseBuilder
@@ -273,6 +295,31 @@ const getAudioUrl = async (date) => {
   }
 };
 
+const callDirectiveService = async (handlerInput) => {
+  // Call Alexa Directive Service.
+  const requestEnvelope = handlerInput.requestEnvelope;
+  const directiveServiceClient = handlerInput.serviceClientFactory.getDirectiveServiceClient();
+
+  const requestId = requestEnvelope.request.requestId;
+  const endpoint = requestEnvelope.context.System.apiEndpoint;
+  const token = requestEnvelope.context.System.apiAccessToken;
+
+  // build the progressive response directive
+  const directive = {
+    header: {
+      requestId,
+    },
+    directive: {
+      type: 'VoicePlayer.Speak',
+      speech: handlerInput.t('FETCHING_AUDIO'),
+    },
+  };
+
+  // send directive
+  return directiveServiceClient.enqueue(directive, endpoint, token);
+}
+
+
 /**
  * This handler acts as the entry point for your skill, routing all request and response
  * payloads to the handlers above. Make sure any new handlers or interceptors you've
@@ -280,6 +327,7 @@ const getAudioUrl = async (date) => {
  * */
 exports.handler = Alexa.SkillBuilders.custom()
   .addRequestHandlers(
+    InProgressPlayAudioHandler,
     PlayAudioHandler,
     StartPlaybackHandler,
     PausePlaybackHandler,
