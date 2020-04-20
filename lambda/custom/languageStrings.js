@@ -25,8 +25,7 @@ module.exports = {
       GOODBYE: 'Hasta luego!',
       REFLECTOR: 'Acabas de activar {{intentName}}',
       FALLBACK: 'Lo siento, no se nada sobre eso. Por favor inténtalo otra vez.',
-      ERROR: 'Lo siento, ha habido un error. Por favor inténtalo otra vez.',
-
+      ERROR: 'Lo siento, ha habido un error. Por favor inténtalo otra vez.'
     }
   }
 }
