@@ -6,7 +6,7 @@
       "merge": {},
       "resources": {
         "manifest": {
-          "eTag": "08c847c394f517a182edd8692c700580"
+          "eTag": "778032ef53bac941c1789bce2a2c9add"
         },
         "interactionModel": {
           "de-DE": {
@@ -16,7 +16,7 @@
             "eTag": "634e290ea1e2cd814f9cc2ec8898d85d"
           },
           "en-US": {
-            "eTag": "1c517be52bcc56340dd48f1f5adf6447"
+            "eTag": "17fac95193ae2b873789597fec14447f"
           },
           "en-AU": {
             "eTag": "7ffd3da6f91a4c5118a92530f5dc3823"
@@ -40,7 +40,7 @@
             "eTag": "f245e36640a10665a9e7535f313106c2"
           },
           "es-ES": {
-            "eTag": "e1478f687952cc7275e30be62730e0e0"
+            "eTag": "2d6b2014e34227194be815e21ead9787"
           },
           "fr-FR": {
             "eTag": "ec826ca2b05790bf5cb90f4e408d606d"
@@ -65,7 +65,7 @@
             "codeUri": "lambda/custom",
             "functionName": "ask-custom-El_Davantal-default",
             "handler": "index.handler",
-            "revisionId": "56d57fbf-0f38-4096-a0af-74524a837a5d",
+            "revisionId": "23eb0ab3-d5a4-4873-9311-43648ed4c7ff",
             "runtime": "nodejs10.x"
           }
         ]
