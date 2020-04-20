@@ -17,7 +17,7 @@
         "es-ES": {
           "name": "El Davantal",
           "summary": "Sección 'El Davantal' del programa de radio de 'El Món a Rac1'",
-          "description": "Curt audio que fa el Jordi Basté al seu programa de radio El Món a Rac1",
+          "description": "Corto audio de noticias que hace Jordi Basté en su programa de radio 'El Món a Rac1'",
           "smallIconUri": "https://marc-ferna-alexa-skills.s3.amazonaws.com/el-davantal/logo-small.png",
           "largeIconUri": "https://marc-ferna-alexa-skills.s3.amazonaws.com/el-davantal/logo-large.png",
           "examplePhrases": [
